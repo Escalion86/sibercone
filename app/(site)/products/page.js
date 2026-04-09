@@ -105,8 +105,19 @@ export default function ProductsPage() {
                 onClick={() => setSearch('')}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-4 h-4"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
                 </svg>
               </button>
             )}
@@ -123,8 +134,19 @@ export default function ProductsPage() {
                 : 'border-gray-200 text-gray-600 hover:bg-gray-50'
             }`}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M10.5 6h9.75M10.5 6a1.5 1.5 0 1 1-3 0m3 0a1.5 1.5 0 1 0-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-9.75 0h9.75"
+              />
             </svg>
             Фильтры
             {activeFiltersCount > 0 && (
@@ -135,7 +157,9 @@ export default function ProductsPage() {
           </button>
 
           {/* Фильтры (десктоп — всегда видны, мобильные — по кнопке) */}
-          <div className={`w-full sm:w-auto sm:flex flex-wrap items-center gap-3 ${filtersOpen ? 'flex' : 'hidden sm:flex'}`}>
+          <div
+            className={`w-full sm:w-auto sm:flex flex-wrap items-center gap-3 ${filtersOpen ? 'flex' : 'hidden sm:flex'}`}
+          >
             {/* Категории */}
             <div className="flex flex-wrap gap-1.5">
               {categories.map((cat) => (
@@ -234,7 +258,11 @@ export default function ProductsPage() {
         <>
           <p className="text-sm text-gray-500 mb-4">
             {products.length}{' '}
-            {products.length === 1 ? 'товар' : products.length < 5 ? 'товара' : 'товаров'}
+            {products.length === 1
+              ? 'товар'
+              : products.length < 5
+                ? 'товара'
+                : 'товаров'}
           </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {products.map((product) => (
