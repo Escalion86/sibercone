@@ -11,7 +11,7 @@ export async function GET(request) {
 
     const filter = {}
     if (category && ['micro', 'scene', 'mentalism'].includes(category)) {
-      filter.category = category
+      filter.categories = category
     }
     if (searchParams.get('new') === '1') {
       filter.isNewArrival = true

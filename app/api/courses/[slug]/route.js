@@ -10,10 +10,7 @@ export async function GET(request, { params }) {
     const course = await Course.findOne({ slug }).lean()
 
     if (!course) {
-      return NextResponse.json(
-        { error: 'Курс не найден' },
-        { status: 404 },
-      )
+      return NextResponse.json({ error: 'Курс не найден' }, { status: 404 })
     }
 
     // Проверяем, есть ли у пользователя доступ

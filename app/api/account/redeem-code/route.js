@@ -6,13 +6,19 @@ import { AccessCode } from '@/models/Course'
 export async function POST(request) {
   const session = await auth()
   if (!session?.user?.id) {
-    return NextResponse.json({ error: 'Необходима авторизация' }, { status: 401 })
+    return NextResponse.json(
+      { error: 'Необходима авторизация' },
+      { status: 401 },
+    )
   }
 
   try {
     const { code } = await request.json()
     if (!code || typeof code !== 'string') {
-      return NextResponse.json({ error: 'Введите код доступа' }, { status: 400 })
+      return NextResponse.json(
+        { error: 'Введите код доступа' },
+        { status: 400 },
+      )
     }
 
     await dbConnect()

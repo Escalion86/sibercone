@@ -33,11 +33,17 @@ export async function PUT(request, { params }) {
     const event = await Event.findByIdAndUpdate(
       id,
       {
-        title: String(body.title || '').trim().slice(0, 300),
-        slug: String(body.slug || '').trim().slice(0, 200),
+        title: String(body.title || '')
+          .trim()
+          .slice(0, 300),
+        slug: String(body.slug || '')
+          .trim()
+          .slice(0, 200),
         description: String(body.description || '').slice(0, 5000),
         date: new Date(body.date),
-        location: String(body.location || '').trim().slice(0, 300),
+        location: String(body.location || '')
+          .trim()
+          .slice(0, 300),
         image: String(body.image || '').slice(0, 500),
         published: body.published !== false,
       },

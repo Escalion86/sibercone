@@ -142,7 +142,9 @@ export default function AdminProductsPage() {
                   </td>
                   <td className="px-6 py-4">
                     <span className="text-sm text-gray-600">
-                      {categoryLabels[product.category] || product.category}
+                      {(product.categories || [])
+                        .map((c) => categoryLabels[c] || c)
+                        .join(', ') || '—'}
                     </span>
                   </td>
                   <td className="px-6 py-4">

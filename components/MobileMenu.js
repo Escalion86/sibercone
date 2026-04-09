@@ -25,7 +25,11 @@ export default function MobileMenu({ isOpen, onClose }) {
       <div className="fixed inset-0 bg-black/30" onClick={onClose} />
       <div className="fixed inset-y-0 left-0 w-72 bg-white shadow-xl flex flex-col">
         <div className="flex items-center justify-between p-4 border-b">
-          <span className="text-xl font-bold text-gray-900">Sibercone</span>
+          <img
+            src="/logo_with_name_horizontal.png"
+            alt="Sibercone"
+            className="h-8 w-auto"
+          />
           <button
             onClick={onClose}
             className="p-2 text-gray-500 hover:text-gray-700"

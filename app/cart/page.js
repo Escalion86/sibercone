@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/context/CartContext'
+import PhoneInput from '@/components/PhoneInput'
 
 export default function CartPage() {
   const { items, removeItem, updateQuantity, clearCart, getTotal, loaded } =
@@ -253,14 +254,13 @@ export default function CartPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Телефон
                 </label>
-                <input
-                  type="tel"
-                  name="phone"
+                <PhoneInput
                   required
                   value={form.phone}
-                  onChange={handleChange}
+                  onChange={(val) =>
+                    setForm((prev) => ({ ...prev, phone: val }))
+                  }
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  placeholder="+7 (999) 123-45-67"
                 />
               </div>
               <div>

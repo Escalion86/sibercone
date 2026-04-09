@@ -33,8 +33,12 @@ export async function PUT(request, { params }) {
     const course = await Course.findByIdAndUpdate(
       id,
       {
-        title: String(body.title || '').trim().slice(0, 300),
-        slug: String(body.slug || '').trim().slice(0, 200),
+        title: String(body.title || '')
+          .trim()
+          .slice(0, 300),
+        slug: String(body.slug || '')
+          .trim()
+          .slice(0, 200),
         description: String(body.description || '').slice(0, 5000),
         content: String(body.content || '').slice(0, 50000),
         videoUrl: String(body.videoUrl || '').slice(0, 500),

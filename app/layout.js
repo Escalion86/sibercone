@@ -14,6 +14,10 @@ export const metadata = {
   title: 'Sibercone — Магазин реквизита для иллюзионистов',
   description:
     'Интернет-магазин реквизита для фокусников. Микромагия, сценические иллюзии и ментализм.',
+  icons: {
+    icon: '/logo.png',
+    apple: '/logo.png',
+  },
 }
 
 export default function RootLayout({ children }) {

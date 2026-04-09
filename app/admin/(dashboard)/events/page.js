@@ -57,9 +57,7 @@ export default function AdminEventsPage() {
           <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
         </div>
       ) : events.length === 0 ? (
-        <div className="text-center py-20 text-gray-500">
-          Событий пока нет
-        </div>
+        <div className="text-center py-20 text-gray-500">Событий пока нет</div>
       ) : (
         <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
           <table className="w-full">

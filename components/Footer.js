@@ -7,7 +7,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* О компании */}
           <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-4">Sibercone</h3>
+            <img
+              src="/logo_with_name_horizontal.png"
+              alt="Sibercone"
+              className="h-10 w-auto mb-4"
+            />
             <p className="text-sm text-gray-600 leading-relaxed">
               Магазин реквизита для иллюзионистов. Микромагия, сценические
               иллюзии и ментализм.

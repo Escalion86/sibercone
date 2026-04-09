@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import PhoneInput from '@/components/PhoneInput'
 
 export default function RegisterPage() {
   const [form, setForm] = useState({
@@ -113,12 +114,9 @@ export default function RegisterPage() {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Телефон
               </label>
-              <input
-                type="tel"
-                name="phone"
+              <PhoneInput
                 value={form.phone}
-                onChange={handleChange}
-                placeholder="+7 (999) 123-45-67"
+                onChange={(val) => setForm((prev) => ({ ...prev, phone: val }))}
                 className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               />
             </div>

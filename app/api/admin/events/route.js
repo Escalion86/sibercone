@@ -38,7 +38,9 @@ export async function POST(request) {
       slug: String(slug).trim().slice(0, 200),
       description: String(description || '').slice(0, 5000),
       date: new Date(date),
-      location: String(location || '').trim().slice(0, 300),
+      location: String(location || '')
+        .trim()
+        .slice(0, 300),
       image: String(image || '').slice(0, 500),
       published: published !== false,
     })

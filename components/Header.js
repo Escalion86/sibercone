@@ -75,11 +75,12 @@ export default function Header() {
             </button>
 
             {/* Логотип */}
-            <Link
-              href="/"
-              className="text-2xl font-bold text-gray-900 tracking-tight"
-            >
-              Sibercone
+            <Link href="/" className="flex items-center">
+              <img
+                src="/logo_with_name_horizontal.png"
+                alt="Sibercone"
+                className="h-10 w-auto"
+              />
             </Link>
 
             {/* Десктопная навигация */}

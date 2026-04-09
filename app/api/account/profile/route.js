@@ -10,12 +10,13 @@ export async function GET() {
   }
 
   await dbConnect()
-  const user = await User.findById(session.user.id)
-    .select('-password')
-    .lean()
+  const user = await User.findById(session.user.id).select('-password').lean()
 
   if (!user) {
-    return NextResponse.json({ error: 'Пользователь не найден' }, { status: 404 })
+    return NextResponse.json(
+      { error: 'Пользователь не найден' },
+      { status: 404 },
+    )
   }
 
   return NextResponse.json(user)
@@ -39,7 +40,9 @@ export async function PUT(request) {
         ...(subscribedToNews !== undefined && { subscribedToNews }),
       },
       { new: true, runValidators: true },
-    ).select('-password').lean()
+    )
+      .select('-password')
+      .lean()
 
     return NextResponse.json(user)
   } catch (err) {

@@ -49,9 +49,16 @@ export default function ProductDetail({ product }) {
 
         {/* Информация */}
         <div className="flex flex-col">
-          <span className="inline-flex items-center self-start px-3 py-1 rounded-full text-xs font-medium bg-indigo-50 text-indigo-600 mb-4">
-            {categoryLabels[product.category] || product.category}
-          </span>
+          <div className="flex flex-wrap gap-2 mb-4">
+            {(product.categories || []).map((cat) => (
+              <span
+                key={cat}
+                className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-50 text-indigo-600"
+              >
+                {categoryLabels[cat] || cat}
+              </span>
+            ))}
+          </div>
 
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
             {product.name}

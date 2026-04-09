@@ -20,7 +20,7 @@ export default function ProductForm({ product, isEdit }) {
     slug: product?.slug || '',
     description: product?.description || '',
     price: product?.price || '',
-    category: product?.category || 'micro',
+    categories: product?.categories || [],
     images: product?.images || [],
     videoUrl: product?.videoUrl || '',
     inStock: product?.inStock !== false,
@@ -159,20 +159,35 @@ export default function ProductForm({ product, isEdit }) {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Категория *
+              Категории
             </label>
-            <select
-              name="category"
-              value={form.category}
-              onChange={handleChange}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white"
-            >
+            <div className="flex flex-wrap gap-3 mt-1">
               {categories.map((cat) => (
-                <option key={cat.value} value={cat.value}>
+                <label
+                  key={cat.value}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl border cursor-pointer transition-colors text-sm ${
+                    form.categories.includes(cat.value)
+                      ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
+                      : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={form.categories.includes(cat.value)}
+                    onChange={() => {
+                      setForm((prev) => ({
+                        ...prev,
+                        categories: prev.categories.includes(cat.value)
+                          ? prev.categories.filter((c) => c !== cat.value)
+                          : [...prev.categories, cat.value],
+                      }))
+                    }}
+                    className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                  />
                   {cat.label}
-                </option>
+                </label>
               ))}
-            </select>
+            </div>
           </div>
         </div>
 

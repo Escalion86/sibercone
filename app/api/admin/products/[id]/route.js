@@ -36,10 +36,11 @@ export async function PUT(request, { params }) {
         slug: body.slug,
         description: body.description || '',
         price: Number(body.price),
-        category: body.category,
+        categories: body.categories || [],
         images: body.images || [],
         videoUrl: body.videoUrl || '',
         inStock: body.inStock !== false,
+        isNewArrival: body.isNewArrival || false,
       },
       { new: true, runValidators: true },
     )

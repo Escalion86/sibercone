@@ -34,7 +34,11 @@ export default function AccountPage() {
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
-  const [profileForm, setProfileForm] = useState({ name: '', phone: '', subscribedToNews: true })
+  const [profileForm, setProfileForm] = useState({
+    name: '',
+    phone: '',
+    subscribedToNews: true,
+  })
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -59,7 +63,11 @@ export default function AccountPage() {
       if (profileRes.ok) {
         const p = await profileRes.json()
         setProfile(p)
-        setProfileForm({ name: p.name, phone: p.phone || '', subscribedToNews: p.subscribedToNews !== false })
+        setProfileForm({
+          name: p.name,
+          phone: p.phone || '',
+          subscribedToNews: p.subscribedToNews !== false,
+        })
       }
     } catch (err) {
       console.error(err)
@@ -118,7 +126,9 @@ export default function AccountPage() {
         <button
           onClick={() => setTab('orders')}
           className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${
-            tab === 'orders' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'
+            tab === 'orders'
+              ? 'bg-white text-gray-900 shadow-sm'
+              : 'text-gray-600 hover:text-gray-900'
           }`}
         >
           Мои заказы
@@ -126,7 +136,9 @@ export default function AccountPage() {
         <button
           onClick={() => setTab('profile')}
           className={`px-5 py-2 rounded-lg text-sm font-medium transition-colors ${
-            tab === 'profile' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-600 hover:text-gray-900'
+            tab === 'profile'
+              ? 'bg-white text-gray-900 shadow-sm'
+              : 'text-gray-600 hover:text-gray-900'
           }`}
         >
           Профиль
@@ -164,12 +176,14 @@ export default function AccountPage() {
                       </span>
                       <span className="mx-2 text-gray-300">•</span>
                       <span className="text-sm text-gray-500">
-                        {deliveryLabels[order.deliveryMethod] || order.deliveryMethod}
+                        {deliveryLabels[order.deliveryMethod] ||
+                          order.deliveryMethod}
                       </span>
                     </div>
                     <span
                       className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        statusColors[order.status] || 'bg-gray-100 text-gray-600'
+                        statusColors[order.status] ||
+                        'bg-gray-100 text-gray-600'
                       }`}
                     >
                       {statusLabels[order.status] || order.status}
@@ -189,19 +203,26 @@ export default function AccountPage() {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-gray-300 text-xs">—</div>
+                            <div className="w-full h-full flex items-center justify-center text-gray-300 text-xs">
+                              —
+                            </div>
                           )}
                         </div>
-                        <span className="text-sm text-gray-900 flex-1">{item.name}</span>
+                        <span className="text-sm text-gray-900 flex-1">
+                          {item.name}
+                        </span>
                         <span className="text-sm text-gray-500">
-                          {item.quantity} × {item.price?.toLocaleString('ru-RU')} ₽
+                          {item.quantity} ×{' '}
+                          {item.price?.toLocaleString('ru-RU')} ₽
                         </span>
                       </div>
                     ))}
                   </div>
 
                   <div className="border-t border-gray-100 pt-3 flex justify-between">
-                    <span className="text-sm font-medium text-gray-700">Итого</span>
+                    <span className="text-sm font-medium text-gray-700">
+                      Итого
+                    </span>
                     <span className="text-sm font-bold text-gray-900">
                       {order.total?.toLocaleString('ru-RU')} ₽
                     </span>
@@ -216,20 +237,28 @@ export default function AccountPage() {
       {/* Профиль */}
       {tab === 'profile' && profile && (
         <div className="bg-white rounded-2xl border border-gray-100 p-6 max-w-lg">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Настройки профиля</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            Настройки профиля
+          </h2>
           <form onSubmit={handleSaveProfile} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Имя</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Имя
+              </label>
               <input
                 type="text"
                 value={profileForm.name}
-                onChange={(e) => setProfileForm((p) => ({ ...p, name: e.target.value }))}
+                onChange={(e) =>
+                  setProfileForm((p) => ({ ...p, name: e.target.value }))
+                }
                 className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Email
+              </label>
               <input
                 type="email"
                 value={profile.email}
@@ -239,11 +268,15 @@ export default function AccountPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Телефон</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Телефон
+              </label>
               <input
                 type="tel"
                 value={profileForm.phone}
-                onChange={(e) => setProfileForm((p) => ({ ...p, phone: e.target.value }))}
+                onChange={(e) =>
+                  setProfileForm((p) => ({ ...p, phone: e.target.value }))
+                }
                 placeholder="+7 (999) 123-45-67"
                 className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               />
@@ -255,11 +288,17 @@ export default function AccountPage() {
                 id="subscribedToNews"
                 checked={profileForm.subscribedToNews}
                 onChange={(e) =>
-                  setProfileForm((p) => ({ ...p, subscribedToNews: e.target.checked }))
+                  setProfileForm((p) => ({
+                    ...p,
+                    subscribedToNews: e.target.checked,
+                  }))
                 }
                 className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
               />
-              <label htmlFor="subscribedToNews" className="text-sm text-gray-700">
+              <label
+                htmlFor="subscribedToNews"
+                className="text-sm text-gray-700"
+              >
                 Получать уведомления о новых товарах
               </label>
             </div>

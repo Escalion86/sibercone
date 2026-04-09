@@ -21,10 +21,14 @@ const ProductSchema = new mongoose.Schema({
     required: true,
     min: 0,
   },
-  category: {
-    type: String,
-    required: true,
-    enum: ['micro', 'scene', 'mentalism'],
+  categories: {
+    type: [String],
+    default: [],
+    validate: {
+      validator: (v) =>
+        v.every((c) => ['micro', 'scene', 'mentalism'].includes(c)),
+      message: 'Недопустимая категория',
+    },
   },
   images: {
     type: [String],

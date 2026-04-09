@@ -42,10 +42,11 @@ export async function POST(request) {
       slug,
       description: body.description || '',
       price: Number(body.price),
-      category: body.category,
+      categories: body.categories || [],
       images: body.images || [],
       videoUrl: body.videoUrl || '',
       inStock: body.inStock !== false,
+      isNewArrival: body.isNewArrival || false,
     })
 
     return NextResponse.json(product, { status: 201 })

@@ -8,10 +8,7 @@ export async function GET(request, { params }) {
     const { slug } = await params
     const event = await Event.findOne({ slug, published: true }).lean()
     if (!event) {
-      return NextResponse.json(
-        { error: 'Событие не найдено' },
-        { status: 404 },
-      )
+      return NextResponse.json({ error: 'Событие не найдено' }, { status: 404 })
     }
     return NextResponse.json(event)
   } catch (error) {

@@ -23,10 +23,7 @@ export async function POST(request) {
 
     const product = await Product.findById(productId).lean()
     if (!product) {
-      return NextResponse.json(
-        { error: 'Товар не найден' },
-        { status: 404 },
-      )
+      return NextResponse.json({ error: 'Товар не найден' }, { status: 404 })
     }
 
     const subscribers = await User.find(

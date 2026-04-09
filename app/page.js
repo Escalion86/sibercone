@@ -19,7 +19,15 @@ export default async function HomePage() {
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-indigo-50 via-white to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-36">
-          <div className="max-w-2xl">
+          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+          <div className="flex-shrink-0 lg:order-2">
+            <img
+              src="/logo_with_name.png"
+              alt="Sibercone"
+              className="w-48 sm:w-56 lg:w-72 h-auto"
+            />
+          </div>
+          <div className="max-w-2xl lg:order-1">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 tracking-tight leading-tight">
               Магия начинается
               <span className="text-indigo-600"> здесь</span>
@@ -56,6 +64,7 @@ export default async function HomePage() {
                 Связаться с нами
               </Link>
             </div>
+          </div>
           </div>
         </div>
       </section>
