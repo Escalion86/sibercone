@@ -20,51 +20,51 @@ export default async function HomePage() {
       <section className="relative bg-gradient-to-br from-indigo-50 via-white to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-36">
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-          <div className="flex-shrink-0 lg:order-2">
-            <img
-              src="/logo_with_name.png"
-              alt="Sibercone"
-              className="w-48 sm:w-56 lg:w-72 h-auto"
-            />
-          </div>
-          <div className="max-w-2xl lg:order-1">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 tracking-tight leading-tight">
-              Магия начинается
-              <span className="text-indigo-600"> здесь</span>
-            </h1>
-            <p className="mt-6 text-lg text-gray-600 leading-relaxed">
-              Реквизит для иллюзионистов любого уровня. Микромагия, сценические
-              иллюзии и ментализм — всё в одном месте.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/products"
-                className="inline-flex items-center px-6 py-3 bg-indigo-600 text-white text-sm font-medium rounded-xl hover:bg-indigo-700 transition-colors"
-              >
-                Перейти в каталог
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  className="w-4 h-4 ml-2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                  />
-                </svg>
-              </Link>
-              <Link
-                href="/contacts"
-                className="inline-flex items-center px-6 py-3 bg-white text-gray-700 text-sm font-medium rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors"
-              >
-                Связаться с нами
-              </Link>
+            <div className="flex-shrink-0 lg:order-2">
+              <img
+                src="/logo_with_name.png"
+                alt="Sibercone"
+                className="w-48 sm:w-56 lg:w-72 h-auto"
+              />
             </div>
-          </div>
+            <div className="max-w-2xl lg:order-1">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 tracking-tight leading-tight">
+                Магия начинается
+                <span className="text-indigo-600"> здесь</span>
+              </h1>
+              <p className="mt-6 text-lg text-gray-600 leading-relaxed">
+                Реквизит для иллюзионистов любого уровня. Микромагия,
+                сценические иллюзии и ментализм — всё в одном месте.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-4">
+                <Link
+                  href="/products"
+                  className="inline-flex items-center px-6 py-3 bg-indigo-600 text-white text-sm font-medium rounded-xl hover:bg-indigo-700 transition-colors"
+                >
+                  Перейти в каталог
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="w-4 h-4 ml-2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                    />
+                  </svg>
+                </Link>
+                <Link
+                  href="/contacts"
+                  className="inline-flex items-center px-6 py-3 bg-white text-gray-700 text-sm font-medium rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors"
+                >
+                  Связаться с нами
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>
