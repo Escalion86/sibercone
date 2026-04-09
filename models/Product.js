@@ -30,6 +30,15 @@ const ProductSchema = new mongoose.Schema({
       message: 'Недопустимая категория',
     },
   },
+  productTypes: {
+    type: [String],
+    default: [],
+    validate: {
+      validator: (v) =>
+        v.every((t) => ['equipment', 'app', 'infoproduct'].includes(t)),
+      message: 'Недопустимый тип товара',
+    },
+  },
   images: {
     type: [String],
     default: [],

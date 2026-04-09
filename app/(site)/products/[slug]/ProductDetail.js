@@ -11,6 +11,12 @@ const categoryLabels = {
   mentalism: 'Ментализм',
 }
 
+const productTypeLabels = {
+  equipment: 'Реквизит',
+  app: 'Приложение',
+  infoproduct: 'Инфопродукт',
+}
+
 export default function ProductDetail({ product }) {
   const { addItem } = useCart()
 
@@ -56,6 +62,14 @@ export default function ProductDetail({ product }) {
                 className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-50 text-indigo-600"
               >
                 {categoryLabels[cat] || cat}
+              </span>
+            ))}
+            {(product.productTypes || []).map((pt) => (
+              <span
+                key={pt}
+                className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-50 text-purple-600"
+              >
+                {productTypeLabels[pt] || pt}
               </span>
             ))}
           </div>

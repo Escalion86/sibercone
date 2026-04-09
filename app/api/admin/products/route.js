@@ -43,6 +43,7 @@ export async function POST(request) {
       description: body.description || '',
       price: Number(body.price),
       categories: body.categories || [],
+      productTypes: body.productTypes || [],
       images: body.images || [],
       videoUrl: body.videoUrl || '',
       inStock: body.inStock !== false,

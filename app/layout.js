@@ -1,8 +1,5 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import { CartProvider } from '@/context/CartContext'
 import AuthProvider from '@/components/AuthProvider'
 
 const inter = Inter({
@@ -15,8 +12,8 @@ export const metadata = {
   description:
     'Интернет-магазин реквизита для фокусников. Микромагия, сценические иллюзии и ментализм.',
   icons: {
-    icon: '/logo.png',
-    apple: '/logo.png',
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
   },
 }
 
@@ -25,11 +22,7 @@ export default function RootLayout({ children }) {
     <html lang="ru" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans bg-white text-gray-900">
         <AuthProvider>
-          <CartProvider>
-            <Header />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </CartProvider>
+          {children}
         </AuthProvider>
       </body>
     </html>

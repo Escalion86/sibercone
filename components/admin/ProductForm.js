@@ -4,10 +4,18 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import ImageUploader from './ImageUploader'
 
+import SlugLabel from './SlugLabel'
+
 const categories = [
   { value: 'micro', label: 'Микромагия' },
   { value: 'scene', label: 'Сцена' },
   { value: 'mentalism', label: 'Ментализм' },
+]
+
+const productTypes = [
+  { value: 'equipment', label: 'Реквизит' },
+  { value: 'app', label: 'Приложение' },
+  { value: 'infoproduct', label: 'Инфопродукт' },
 ]
 
 export default function ProductForm({ product, isEdit }) {
@@ -21,6 +29,7 @@ export default function ProductForm({ product, isEdit }) {
     description: product?.description || '',
     price: product?.price || '',
     categories: product?.categories || [],
+    productTypes: product?.productTypes || [],
     images: product?.images || [],
     videoUrl: product?.videoUrl || '',
     inStock: product?.inStock !== false,
@@ -115,9 +124,7 @@ export default function ProductForm({ product, isEdit }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
-            URL (slug)
-          </label>
+          <SlugLabel />
           <input
             type="text"
             name="slug"
@@ -140,27 +147,26 @@ export default function ProductForm({ product, isEdit }) {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Цена (₽) *
-            </label>
-            <input
-              type="number"
-              name="price"
-              value={form.price}
-              onChange={handleChange}
-              required
-              min="0"
-              step="1"
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-            />
-          </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            Цена (₽) *
+          </label>
+          <input
+            type="number"
+            name="price"
+            value={form.price}
+            onChange={handleChange}
+            required
+            min="0"
+            step="1"
+            className="w-full sm:w-1/2 px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          />
+        </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Категории
-            </label>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            Категории
+          </label>
             <div className="flex flex-wrap gap-3 mt-1">
               {categories.map((cat) => (
                 <label
@@ -188,6 +194,38 @@ export default function ProductForm({ product, isEdit }) {
                 </label>
               ))}
             </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            Тип товара
+          </label>
+          <div className="flex flex-wrap gap-3 mt-1">
+            {productTypes.map((pt) => (
+              <label
+                key={pt.value}
+                className={`flex items-center gap-2 px-4 py-2 rounded-xl border cursor-pointer transition-colors text-sm ${
+                  form.productTypes.includes(pt.value)
+                    ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
+                    : 'border-gray-200 bg-white text-gray-600 hover:bg-gray-50'
+                }`}
+              >
+                <input
+                  type="checkbox"
+                  checked={form.productTypes.includes(pt.value)}
+                  onChange={() => {
+                    setForm((prev) => ({
+                      ...prev,
+                      productTypes: prev.productTypes.includes(pt.value)
+                        ? prev.productTypes.filter((t) => t !== pt.value)
+                        : [...prev.productTypes, pt.value],
+                    }))
+                  }}
+                  className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                />
+                {pt.label}
+              </label>
+            ))}
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import SlugLabel from '@/components/admin/SlugLabel'
 import { useRouter, useParams } from 'next/navigation'
 
 export default function EditEventPage() {
@@ -111,9 +112,7 @@ export default function EditEventPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              URL (slug)
-            </label>
+            <SlugLabel />
             <input
               type="text"
               name="slug"

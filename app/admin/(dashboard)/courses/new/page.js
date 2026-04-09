@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import SlugLabel from '@/components/admin/SlugLabel'
 import { useRouter } from 'next/navigation'
 
 export default function NewCoursePage() {
@@ -83,9 +84,7 @@ export default function NewCoursePage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              URL (slug)
-            </label>
+            <SlugLabel />
             <input
               type="text"
               name="slug"

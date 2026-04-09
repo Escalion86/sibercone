@@ -98,13 +98,14 @@ export default function AdminSidebar() {
   return (
     <aside className="w-64 bg-white border-r border-gray-100 min-h-screen flex flex-col">
       <div className="p-6 border-b border-gray-100">
-        <Link
-          href="/admin/products"
-          className="text-xl font-bold text-gray-900"
-        >
-          Sibercone
+        <Link href="/admin/products">
+          <img
+            src="/logo_with_name_horizontal.png"
+            alt="Sibercone"
+            className="h-8 w-auto"
+          />
         </Link>
-        <p className="text-xs text-gray-500 mt-1">Панель управления</p>
+        <p className="text-xs text-gray-500 mt-2">Панель управления</p>
       </div>
 
       <nav className="flex-1 p-4 space-y-1">
