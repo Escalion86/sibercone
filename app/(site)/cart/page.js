@@ -147,7 +147,7 @@ export default function CartPage() {
               className="flex gap-4 bg-white border border-gray-100 rounded-2xl p-4"
             >
               <Link
-                href={`/products/${item.slug}`}
+                href={`/products/${encodeURIComponent(item.slug)}`}
                 className="relative w-20 h-20 bg-gray-50 rounded-xl overflow-hidden flex-shrink-0"
               >
                 {item.image ? (
@@ -179,7 +179,7 @@ export default function CartPage() {
               </Link>
               <div className="flex-1 min-w-0">
                 <Link
-                  href={`/products/${item.slug}`}
+                  href={`/products/${encodeURIComponent(item.slug)}`}
                   className="text-sm font-medium text-gray-900 hover:text-indigo-600 transition-colors line-clamp-1"
                 >
                   {item.name}

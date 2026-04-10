@@ -22,7 +22,7 @@ export default function ProductCard({ product }) {
 
   return (
     <Link
-      href={`/products/${product.slug}`}
+      href={`/products/${encodeURIComponent(product.slug)}`}
       className="group bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow duration-300"
     >
       <div className="relative aspect-square bg-gray-50 overflow-hidden">
