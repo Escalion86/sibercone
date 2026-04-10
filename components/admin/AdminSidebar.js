@@ -86,25 +86,58 @@ const navItems = [
   },
 ]
 
-export default function AdminSidebar() {
+export default function AdminSidebar({
+  className = '',
+  showCloseButton = false,
+  onClose = null,
+  onNavigate = null,
+}) {
   const pathname = usePathname()
   const router = useRouter()
 
   const handleLogout = async () => {
     await fetch('/api/admin/logout', { method: 'POST' })
+    if (onNavigate) onNavigate()
     router.push('/admin/login')
   }
 
   return (
-    <aside className="w-64 bg-white border-r border-gray-100 min-h-screen flex flex-col">
+    <aside
+      className={`w-64 bg-white border-r border-gray-100 min-h-screen flex flex-col ${className}`}
+    >
       <div className="p-6 border-b border-gray-100">
-        <Link href="/admin/products">
-          <img
-            src="/logo_with_name_horizontal.png"
-            alt="Sibercone"
-            className="h-8 w-auto"
-          />
-        </Link>
+        <div className="flex items-start justify-between gap-3">
+          <Link href="/admin/products" onClick={onNavigate || undefined}>
+            <img
+              src="/logo_with_name_horizontal.png"
+              alt="Sibercone"
+              className="h-8 w-auto"
+            />
+          </Link>
+          {showCloseButton && (
+            <button
+              type="button"
+              onClick={onClose || undefined}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50"
+              aria-label="Закрыть меню"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="h-5 w-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          )}
+        </div>
         <p className="text-xs text-gray-500 mt-2">Панель управления</p>
       </div>
 
@@ -113,6 +146,7 @@ export default function AdminSidebar() {
           <Link
             key={item.href}
             href={item.href}
+            onClick={onNavigate || undefined}
             className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${
               pathname.startsWith(item.href)
                 ? 'bg-indigo-50 text-indigo-600'
@@ -129,6 +163,7 @@ export default function AdminSidebar() {
         <Link
           href="/"
           target="_blank"
+          onClick={onNavigate || undefined}
           className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
         >
           <svg

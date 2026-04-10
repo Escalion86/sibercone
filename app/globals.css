@@ -3,3 +3,11 @@
 @theme inline {
   --font-sans: var(--font-inter);
 }
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}

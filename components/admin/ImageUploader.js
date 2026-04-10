@@ -14,26 +14,24 @@ export default function ImageUploader({ images, onChange, directory }) {
     setUploading(true)
     const newImages = [...images]
 
-    for (const file of files) {
-      try {
-        const formData = new FormData()
-        formData.append('file', file)
-        formData.append('directory', directory)
+    try {
+      const formData = new FormData()
+      files.forEach((file) => formData.append('files', file))
+      formData.append('directory', directory)
 
-        const res = await fetch('/api/admin/upload', {
-          method: 'POST',
-          body: formData,
-        })
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData,
+      })
 
-        if (res.ok) {
-          const data = await res.json()
-          if (data.urls && data.urls.length > 0) {
-            newImages.push(...data.urls)
-          }
+      if (res.ok) {
+        const data = await res.json()
+        if (data.urls && Array.isArray(data.urls) && data.urls.length > 0) {
+          newImages.push(...data.urls)
         }
-      } catch (err) {
-        console.error('Upload error:', err)
       }
+    } catch (err) {
+      console.error('Upload error:', err)
     }
 
     onChange(newImages)

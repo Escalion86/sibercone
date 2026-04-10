@@ -9,18 +9,25 @@ export async function POST(request) {
 
   try {
     const formData = await request.formData()
-    const file = formData.get('file')
+    const files = formData.getAll('files')
     const directory = formData.get('directory') || 'sibercone/products'
 
-    if (!file) {
+    if (!files.length) {
       return NextResponse.json({ error: 'Файл не выбран' }, { status: 400 })
     }
 
-    const cloudFormData = new FormData()
-    cloudFormData.append('files', file)
-    cloudFormData.append('directory', directory)
-
-    const urls = await uploadFile(file, directory)
+    // Если uploadFile поддерживает массив файлов, можно передать files
+    // const urls = await uploadFile(files, directory)
+    // Если нет — отправляем по одному
+    let urls = []
+    for (const file of files) {
+      const result = await uploadFile(file, directory)
+      if (Array.isArray(result)) {
+        urls = urls.concat(result)
+      } else if (result) {
+        urls.push(result)
+      }
+    }
     return NextResponse.json({ urls })
   } catch (err) {
     return NextResponse.json(
