@@ -22,7 +22,7 @@ export async function POST(request) {
   }
   try {
     const body = await request.json()
-    const { title, slug, description, date, location, image, published } = body
+    const { title, slug, description, date, location, image, videoUrl, published } = body
 
     if (!title || !slug || !date) {
       return NextResponse.json(
@@ -42,6 +42,7 @@ export async function POST(request) {
         .trim()
         .slice(0, 300),
       image: String(image || '').slice(0, 500),
+      videoUrl: String(videoUrl || '').slice(0, 500),
       published: published !== false,
     })
 

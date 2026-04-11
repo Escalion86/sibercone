@@ -113,6 +113,13 @@ export default function ProductDetail({ product }) {
             {product.inStock ? 'Добавить в корзину' : 'Нет в наличии'}
           </button>
 
+          {product.videoUrl && (
+            <div className="mb-8">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Видео</h3>
+              <VideoEmbed url={product.videoUrl} />
+            </div>
+          )}
+
           {product.description && (
             <div className="prose prose-gray max-w-none">
               <h3 className="text-lg font-semibold text-gray-900 mb-3">
@@ -128,16 +135,6 @@ export default function ProductDetail({ product }) {
           )}
         </div>
       </div>
-
-      {/* Видео */}
-      {product.videoUrl && (
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Видео</h2>
-          <div className="max-w-3xl">
-            <VideoEmbed url={product.videoUrl} />
-          </div>
-        </div>
-      )}
     </div>
   )
 }

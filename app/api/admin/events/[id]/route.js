@@ -45,6 +45,7 @@ export async function PUT(request, { params }) {
           .trim()
           .slice(0, 300),
         image: String(body.image || '').slice(0, 500),
+        videoUrl: String(body.videoUrl || '').slice(0, 500),
         published: body.published !== false,
       },
       { new: true },

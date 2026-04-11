@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { toSafeHtml } from '@/lib/richText'
+import VideoEmbed from '@/components/VideoEmbed'
 
 export default function EventPage() {
   const { slug } = useParams()
@@ -99,6 +100,12 @@ export default function EventPage() {
       </div>
 
       <h1 className="text-3xl font-bold text-gray-900 mb-6">{event.title}</h1>
+
+      {event.videoUrl && (
+        <div className="mb-8">
+          <VideoEmbed url={event.videoUrl} />
+        </div>
+      )}
 
       {event.description && (
         <div

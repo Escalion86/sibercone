@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import ImageUploader from './ImageUploader'
+import VideoUploader from './VideoUploader'
 import RichTextEditor from './RichTextEditor'
 
 import SlugLabel from './SlugLabel'
@@ -248,16 +249,28 @@ export default function ProductForm({ product, isEdit }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
-            Ссылка на видео (YouTube / VK)
-          </label>
+          <h3 className="text-sm font-medium text-gray-700 mb-2">Видео</h3>
+          <VideoUploader
+            videoUrl={form.videoUrl}
+            onChange={(videoUrl) =>
+              setForm((prev) => ({
+                ...prev,
+                videoUrl,
+              }))
+            }
+            directory={cloudDirectory}
+          />
+          <p className="mt-2 text-xs text-gray-500">
+            Можно загрузить файл или вручную вставить ссылку (YouTube / VK /
+            RuTube).
+          </p>
           <input
             type="text"
             name="videoUrl"
             value={form.videoUrl}
             onChange={handleChange}
             placeholder="https://youtube.com/watch?v=..."
-            className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="mt-2 w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
           />
         </div>
 

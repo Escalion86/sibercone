@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { toSafeHtml } from '@/lib/richText'
+import VideoEmbed from '@/components/VideoEmbed'
 
 export default function CoursePage() {
   const { slug } = useParams()
@@ -106,6 +107,12 @@ export default function CoursePage() {
 
       <h1 className="text-3xl font-bold text-gray-900 mb-4">{course.title}</h1>
 
+      {course.videoUrl && (
+        <div className="mb-8">
+          <VideoEmbed url={course.videoUrl} />
+        </div>
+      )}
+
       {course.description && (
         <div
           className="prose prose-gray max-w-none text-lg mb-8"
@@ -118,17 +125,6 @@ export default function CoursePage() {
       {course.hasAccess ? (
         /* Полный контент курса */
         <div className="space-y-8">
-          {course.videoUrl && (
-            <div className="rounded-2xl overflow-hidden bg-black aspect-video">
-              <iframe
-                src={course.videoUrl.replace('watch?v=', 'embed/')}
-                className="w-full h-full"
-                allowFullScreen
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              />
-            </div>
-          )}
-
           {course.images?.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {course.images.map((img, i) => (

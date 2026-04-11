@@ -28,6 +28,10 @@ const EventSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  videoUrl: {
+    type: String,
+    default: '',
+  },
   published: {
     type: Boolean,
     default: true,

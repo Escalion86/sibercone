@@ -2,6 +2,9 @@ export default function VideoEmbed({ url }) {
   if (!url) return null
 
   let embedUrl = ''
+  const isDirectVideo =
+    /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(url) ||
+    url.includes('/uploads/')
 
   // YouTube
   const ytMatch = url.match(
@@ -23,7 +26,18 @@ export default function VideoEmbed({ url }) {
     embedUrl = `https://rutube.ru/play/embed/${rtMatch[1]}`
   }
 
-  if (!embedUrl) return null
+  if (!embedUrl && !isDirectVideo) return null
+
+  if (isDirectVideo) {
+    return (
+      <video
+        src={url}
+        controls
+        preload="metadata"
+        className="w-full rounded-2xl bg-black max-h-[520px]"
+      />
+    )
+  }
 
   return (
     <div className="aspect-video rounded-2xl overflow-hidden bg-gray-900">

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import SlugLabel from '@/components/admin/SlugLabel'
 import { useRouter } from 'next/navigation'
 import RichTextEditor from '@/components/admin/RichTextEditor'
+import VideoUploader from '@/components/admin/VideoUploader'
 
 export default function NewEventPage() {
   const router = useRouter()
@@ -16,6 +17,7 @@ export default function NewEventPage() {
     date: '',
     location: '',
     image: '',
+    videoUrl: '',
     published: true,
   })
 
@@ -166,6 +168,29 @@ function EventForm({
               className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
             />
           </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            Видео
+          </label>
+          <VideoUploader
+            videoUrl={form.videoUrl}
+            onChange={(videoUrl) =>
+              onChange({
+                target: { name: 'videoUrl', value: videoUrl, type: 'text' },
+              })
+            }
+            directory={`sibercone/events/${form.slug || 'temp'}`}
+          />
+          <input
+            type="text"
+            name="videoUrl"
+            value={form.videoUrl}
+            onChange={onChange}
+            placeholder="https://youtube.com/watch?v=..."
+            className="mt-2 w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          />
         </div>
 
         <div>

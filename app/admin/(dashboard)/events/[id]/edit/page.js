@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import SlugLabel from '@/components/admin/SlugLabel'
 import { useRouter, useParams } from 'next/navigation'
 import RichTextEditor from '@/components/admin/RichTextEditor'
+import VideoUploader from '@/components/admin/VideoUploader'
 
 export default function EditEventPage() {
   const router = useRouter()
@@ -18,6 +19,7 @@ export default function EditEventPage() {
     date: '',
     location: '',
     image: '',
+    videoUrl: '',
     published: true,
   })
 
@@ -34,6 +36,7 @@ export default function EditEventPage() {
             date: event.date ? event.date.split('T')[0] : '',
             location: event.location || '',
             image: event.image || '',
+            videoUrl: event.videoUrl || '',
             published: event.published !== false,
           })
         }
@@ -165,6 +168,30 @@ export default function EditEventPage() {
                 className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               />
             </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              Видео
+            </label>
+            <VideoUploader
+              videoUrl={form.videoUrl}
+              onChange={(videoUrl) =>
+                setForm((prev) => ({
+                  ...prev,
+                  videoUrl,
+                }))
+              }
+              directory={`sibercone/events/${form.slug || 'temp'}`}
+            />
+            <input
+              type="text"
+              name="videoUrl"
+              value={form.videoUrl}
+              onChange={handleChange}
+              placeholder="https://youtube.com/watch?v=..."
+              className="mt-2 w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            />
           </div>
 
           <div>

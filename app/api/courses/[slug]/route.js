@@ -31,12 +31,13 @@ export async function GET(request, { params }) {
       return NextResponse.json({ ...course, hasAccess: true })
     }
 
-    // Без доступа — только описание (без content и videoUrl)
+    // Без доступа — только публичная информация (без content)
     return NextResponse.json({
       _id: course._id,
       title: course.title,
       slug: course.slug,
       description: course.description,
+      videoUrl: course.videoUrl,
       price: course.price,
       images: course.images,
       hasAccess: false,
