@@ -6,6 +6,13 @@ import { useCart } from '@/context/CartContext'
 
 export default function ProductCard({ product }) {
   const { addItem } = useCart()
+  const priceValue = Number(product.price)
+  const priceLabel =
+    priceValue === 0
+      ? 'Бесплатно'
+      : Number.isFinite(priceValue)
+        ? `${priceValue.toLocaleString('ru-RU')} ₽`
+        : '—'
 
   const handleAdd = (e) => {
     e.preventDefault()
@@ -61,12 +68,17 @@ export default function ProductCard({ product }) {
         )}
       </div>
       <div className="p-4">
-        <h3 className="text-sm font-medium text-gray-900 line-clamp-2 mb-2 group-hover:text-indigo-600 transition-colors">
+        <h3 className="text-sm font-medium text-gray-900 line-clamp-2 mb-1 group-hover:text-indigo-600 transition-colors">
           {product.name}
         </h3>
+        {product.shortDescription && (
+          <p className="text-xs text-gray-500 line-clamp-2 mb-3">
+            {product.shortDescription}
+          </p>
+        )}
         <div className="flex items-center justify-between">
           <span className="text-lg font-bold text-gray-900">
-            {product.price.toLocaleString('ru-RU')} ₽
+            {priceLabel}
           </span>
           <button
             onClick={handleAdd}

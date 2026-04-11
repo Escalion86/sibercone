@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { toPlainText } from '@/lib/richText'
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState([])
@@ -78,7 +79,7 @@ export default function CoursesPage() {
                 </h2>
                 {course.description && (
                   <p className="mt-2 text-sm text-gray-600 line-clamp-2">
-                    {course.description}
+                    {toPlainText(course.description)}
                   </p>
                 )}
                 {course.price > 0 && (

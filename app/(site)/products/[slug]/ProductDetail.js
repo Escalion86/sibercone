@@ -4,6 +4,7 @@ import Link from 'next/link'
 import ProductGallery from '@/components/ProductGallery'
 import VideoEmbed from '@/components/VideoEmbed'
 import { useCart } from '@/context/CartContext'
+import { toSafeHtml } from '@/lib/richText'
 
 const categoryLabels = {
   micro: 'Микромагия',
@@ -19,6 +20,13 @@ const productTypeLabels = {
 
 export default function ProductDetail({ product }) {
   const { addItem } = useCart()
+  const priceValue = Number(product.price)
+  const priceLabel =
+    priceValue === 0
+      ? 'Бесплатно'
+      : Number.isFinite(priceValue)
+        ? `${priceValue.toLocaleString('ru-RU')} ₽`
+        : '—'
 
   const handleAdd = () => {
     if (!product.inStock) return
@@ -80,7 +88,7 @@ export default function ProductDetail({ product }) {
 
           <div className="flex items-center gap-4 mb-6">
             <span className="text-3xl font-bold text-gray-900">
-              {product.price.toLocaleString('ru-RU')} ₽
+              {priceLabel}
             </span>
             <span
               className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
@@ -110,9 +118,12 @@ export default function ProductDetail({ product }) {
               <h3 className="text-lg font-semibold text-gray-900 mb-3">
                 Описание
               </h3>
-              <div className="text-gray-600 leading-relaxed whitespace-pre-line">
-                {product.description}
-              </div>
+              <div
+                className="text-gray-600 leading-relaxed"
+                dangerouslySetInnerHTML={{
+                  __html: toSafeHtml(product.description),
+                }}
+              />
             </div>
           )}
         </div>

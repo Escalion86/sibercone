@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import SlugLabel from '@/components/admin/SlugLabel'
 import { useRouter, useParams } from 'next/navigation'
+import RichTextEditor from '@/components/admin/RichTextEditor'
 
 export default function EditEventPage() {
   const router = useRouter()
@@ -126,12 +127,14 @@ export default function EditEventPage() {
             <label className="block text-sm font-medium text-gray-700 mb-1.5">
               Описание
             </label>
-            <textarea
-              name="description"
+            <RichTextEditor
               value={form.description}
-              onChange={handleChange}
-              rows={5}
-              className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-y"
+              onChange={(description) =>
+                setForm((prev) => ({
+                  ...prev,
+                  description,
+                }))
+              }
             />
           </div>
 

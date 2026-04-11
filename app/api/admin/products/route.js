@@ -41,6 +41,7 @@ export async function POST(request) {
       name: body.name,
       slug,
       description: body.description || '',
+      shortDescription: body.shortDescription || '',
       price: Number(body.price),
       categories: body.categories || [],
       productTypes: body.productTypes || [],

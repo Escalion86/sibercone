@@ -35,6 +35,7 @@ export async function PUT(request, { params }) {
         name: body.name,
         slug: body.slug,
         description: body.description || '',
+        shortDescription: body.shortDescription || '',
         price: Number(body.price),
         categories: body.categories || [],
         productTypes: body.productTypes || [],

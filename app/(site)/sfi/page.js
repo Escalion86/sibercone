@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { toPlainText } from '@/lib/richText'
 
 export default function SFIPage() {
   const [events, setEvents] = useState([])
@@ -97,7 +98,7 @@ export default function SFIPage() {
                 </h2>
                 {event.description && (
                   <p className="mt-2 text-sm text-gray-600 line-clamp-2">
-                    {event.description}
+                    {toPlainText(event.description)}
                   </p>
                 )}
               </div>

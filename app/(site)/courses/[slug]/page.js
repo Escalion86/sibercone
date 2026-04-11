@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
+import { toSafeHtml } from '@/lib/richText'
 
 export default function CoursePage() {
   const { slug } = useParams()
@@ -106,7 +107,12 @@ export default function CoursePage() {
       <h1 className="text-3xl font-bold text-gray-900 mb-4">{course.title}</h1>
 
       {course.description && (
-        <p className="text-gray-600 text-lg mb-8">{course.description}</p>
+        <div
+          className="prose prose-gray max-w-none text-lg mb-8"
+          dangerouslySetInnerHTML={{
+            __html: toSafeHtml(course.description),
+          }}
+        />
       )}
 
       {course.hasAccess ? (

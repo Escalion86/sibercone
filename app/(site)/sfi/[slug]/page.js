@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
+import { toSafeHtml } from '@/lib/richText'
 
 export default function EventPage() {
   const { slug } = useParams()
@@ -100,11 +101,12 @@ export default function EventPage() {
       <h1 className="text-3xl font-bold text-gray-900 mb-6">{event.title}</h1>
 
       {event.description && (
-        <div className="prose prose-gray max-w-none">
-          {event.description.split('\n').map((paragraph, i) => (
-            <p key={i}>{paragraph}</p>
-          ))}
-        </div>
+        <div
+          className="prose prose-gray max-w-none"
+          dangerouslySetInnerHTML={{
+            __html: toSafeHtml(event.description),
+          }}
+        />
       )}
     </div>
   )

@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import ImageUploader from './ImageUploader'
+import RichTextEditor from './RichTextEditor'
 
 import SlugLabel from './SlugLabel'
 
@@ -27,6 +28,7 @@ export default function ProductForm({ product, isEdit }) {
     name: product?.name || '',
     slug: product?.slug || '',
     description: product?.description || '',
+    shortDescription: product?.shortDescription || '',
     price: product?.price || '',
     categories: product?.categories || [],
     productTypes: product?.productTypes || [],
@@ -138,11 +140,27 @@ export default function ProductForm({ product, isEdit }) {
           <label className="block text-sm font-medium text-gray-700 mb-1.5">
             Описание
           </label>
-          <textarea
-            name="description"
+          <RichTextEditor
             value={form.description}
+            onChange={(description) =>
+              setForm((prev) => ({
+                ...prev,
+                description,
+              }))
+            }
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            Короткое описание (для карточки)
+          </label>
+          <textarea
+            name="shortDescription"
+            value={form.shortDescription}
             onChange={handleChange}
-            rows={5}
+            rows={2}
+            maxLength={220}
             className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent resize-y"
           />
         </div>
