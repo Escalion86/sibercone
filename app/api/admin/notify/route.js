@@ -6,7 +6,7 @@ import { isAuthenticated } from '@/lib/auth'
 import { sendEmail, formatNewProductEmail } from '@/lib/email'
 
 export async function POST(request) {
-  if (!isAuthenticated(request)) {
+  if (!(await isAuthenticated())) {
     return NextResponse.json({ error: 'Не авторизован' }, { status: 401 })
   }
 

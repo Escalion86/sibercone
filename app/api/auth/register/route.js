@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import dbConnect from '@/lib/mongodb'
 import User from '@/models/User'
+import { notifyAdmins } from '@/lib/notifyAdmins'
 
 export async function POST(request) {
   try {
@@ -33,11 +34,19 @@ export async function POST(request) {
 
     const hashedPassword = await bcrypt.hash(password, 12)
 
-    await User.create({
+    const user = await User.create({
       name,
       email: email.toLowerCase(),
       phone: phone || '',
       password: hashedPassword,
+    })
+
+    await notifyAdmins({
+      event: 'newUser',
+      title: 'Новая регистрация',
+      body: `${user.name} — ${user.email}${user.phone ? `, ${user.phone}` : ''}`,
+      telegramText: `👤 <b>Новый пользователь</b>\n\n<b>Имя:</b> ${user.name}\n<b>Email:</b> ${user.email}\n<b>Телефон:</b> ${user.phone || 'не указан'}`,
+      url: '/admin/notifications',
     })
 
     return NextResponse.json({ success: true }, { status: 201 })

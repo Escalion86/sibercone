@@ -1,16 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { useState } from 'react'
 import AdminSidebar from './AdminSidebar'
 
 export default function AdminDashboardShell({ children }) {
-  const pathname = usePathname()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-
-  useEffect(() => {
-    setIsSidebarOpen(false)
-  }, [pathname])
 
   return (
     <div className="min-h-screen bg-gray-50 md:flex">

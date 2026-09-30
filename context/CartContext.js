@@ -15,13 +15,18 @@ export function CartProvider({ children }) {
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem('cart')
-      if (stored) {
-        setItems(JSON.parse(stored))
+    const timeout = window.setTimeout(() => {
+      try {
+        const stored = localStorage.getItem('cart')
+        if (stored) {
+          setItems(JSON.parse(stored))
+        }
+      } catch {
+        // Повреждённая корзина не должна ломать приложение.
       }
-    } catch {}
-    setLoaded(true)
+      setLoaded(true)
+    }, 0)
+    return () => window.clearTimeout(timeout)
   }, [])
 
   useEffect(() => {

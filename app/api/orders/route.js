@@ -3,7 +3,8 @@ import { auth } from '@/lib/nextauth'
 import dbConnect from '@/lib/mongodb'
 import Order from '@/models/Order'
 import User from '@/models/User'
-import { sendTelegramMessage, formatOrderMessage } from '@/lib/telegram'
+import { formatOrderMessage } from '@/lib/telegram'
+import { notifyAdmins } from '@/lib/notifyAdmins'
 import { sendEmail, formatOrderConfirmationEmail } from '@/lib/email'
 
 export async function POST(request) {
@@ -73,12 +74,13 @@ export async function POST(request) {
       status: 'new',
     })
 
-    // Отправка в Telegram (не блокируем ответ при ошибке)
-    try {
-      await sendTelegramMessage(formatOrderMessage(order))
-    } catch (tgErr) {
-      console.error('Telegram notification failed:', tgErr.message)
-    }
+    await notifyAdmins({
+      event: 'newOrder',
+      title: 'Новый заказ',
+      body: `${order.customerName} — ${order.total.toLocaleString('ru-RU')} ₽`,
+      telegramText: formatOrderMessage(order),
+      url: `/admin/orders/${order._id}`,
+    })
 
     // Email подтверждение (если пользователь авторизован)
     if (session?.user?.id) {

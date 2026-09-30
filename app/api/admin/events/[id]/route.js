@@ -4,7 +4,7 @@ import Event from '@/models/Event'
 import { isAuthenticated } from '@/lib/auth'
 
 export async function GET(request, { params }) {
-  if (!isAuthenticated(request)) {
+  if (!(await isAuthenticated())) {
     return NextResponse.json({ error: 'Не авторизован' }, { status: 401 })
   }
   try {
@@ -21,7 +21,7 @@ export async function GET(request, { params }) {
 }
 
 export async function PUT(request, { params }) {
-  if (!isAuthenticated(request)) {
+  if (!(await isAuthenticated())) {
     return NextResponse.json({ error: 'Не авторизован' }, { status: 401 })
   }
   try {
@@ -62,7 +62,7 @@ export async function PUT(request, { params }) {
 }
 
 export async function DELETE(request, { params }) {
-  if (!isAuthenticated(request)) {
+  if (!(await isAuthenticated())) {
     return NextResponse.json({ error: 'Не авторизован' }, { status: 401 })
   }
   try {

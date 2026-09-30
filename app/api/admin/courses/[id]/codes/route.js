@@ -5,7 +5,7 @@ import { AccessCode } from '@/models/Course'
 import { isAuthenticated } from '@/lib/auth'
 
 export async function GET(request, { params }) {
-  if (!isAuthenticated(request)) {
+  if (!(await isAuthenticated())) {
     return NextResponse.json({ error: 'Не авторизован' }, { status: 401 })
   }
   try {
@@ -22,7 +22,7 @@ export async function GET(request, { params }) {
 }
 
 export async function POST(request, { params }) {
-  if (!isAuthenticated(request)) {
+  if (!(await isAuthenticated())) {
     return NextResponse.json({ error: 'Не авторизован' }, { status: 401 })
   }
   try {

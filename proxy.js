@@ -13,7 +13,7 @@ export function proxy(request) {
     try {
       const decoded = Buffer.from(token.value, 'base64').toString('utf-8')
       const adminPassword = process.env.ADMIN_PASSWORD
-      if (!decoded.startsWith(adminPassword + '_')) {
+      if (!adminPassword || !decoded.startsWith(adminPassword + '_')) {
         return NextResponse.redirect(new URL('/admin/login', request.url))
       }
     } catch {

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { auth } from '@/lib/nextauth'
 import dbConnect from '@/lib/mongodb'
 import { AccessCode } from '@/models/Course'
+import User from '@/models/User'
+import { notifyAdmins } from '@/lib/notifyAdmins'
 
 export async function POST(request) {
   const session = await auth()
@@ -39,6 +41,15 @@ export async function POST(request) {
     accessCode.userId = session.user.id
     accessCode.usedAt = new Date()
     await accessCode.save()
+
+    const user = await User.findById(session.user.id, 'name email').lean()
+    await notifyAdmins({
+      event: 'codeRedeemed',
+      title: 'Активирован код курса',
+      body: `${user?.name || user?.email || 'Пользователь'} — ${accessCode.courseId.title}`,
+      telegramText: `🎓 <b>Активирован код доступа</b>\n\n<b>Пользователь:</b> ${user?.name || 'Не указано'} (${user?.email || 'email не указан'})\n<b>Курс:</b> ${accessCode.courseId.title}`,
+      url: '/admin/courses',
+    })
 
     return NextResponse.json({
       success: true,
