@@ -1,17 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useCallback, useState, useEffect } from 'react'
 import Link from 'next/link'
 
 export default function AdminCoursesPage() {
   const [courses, setCourses] = useState([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    fetchCourses()
-  }, [])
-
-  async function fetchCourses() {
+  const fetchCourses = useCallback(async () => {
     try {
       const res = await fetch('/api/admin/courses')
       const data = await res.json()
@@ -20,7 +16,12 @@ export default function AdminCoursesPage() {
       setCourses([])
     }
     setLoading(false)
-  }
+  }, [])
+
+  useEffect(() => {
+    const timeout = window.setTimeout(fetchCourses, 0)
+    return () => window.clearTimeout(timeout)
+  }, [fetchCourses])
 
   async function handleDelete(id) {
     if (!confirm('Удалить курс?')) return

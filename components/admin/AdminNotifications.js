@@ -54,7 +54,7 @@ export default function AdminNotifications() {
     if ('serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window) {
       setPermission(Notification.permission)
       navigator.serviceWorker
-        .getRegistration('/sw.js')
+        .getRegistration()
         .then((registration) => registration?.pushManager.getSubscription())
         .then((subscription) => setCurrentSubscription(subscription || null))
         .catch(() => {})
