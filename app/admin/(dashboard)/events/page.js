@@ -1,13 +1,17 @@
 'use client'
 
-import { useCallback, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 export default function AdminEventsPage() {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
 
-  const fetchEvents = useCallback(async () => {
+  useEffect(() => {
+    fetchEvents()
+  }, [])
+
+  async function fetchEvents() {
     try {
       const res = await fetch('/api/admin/events')
       const data = await res.json()
@@ -16,12 +20,7 @@ export default function AdminEventsPage() {
       setEvents([])
     }
     setLoading(false)
-  }, [])
-
-  useEffect(() => {
-    const timeout = window.setTimeout(fetchEvents, 0)
-    return () => window.clearTimeout(timeout)
-  }, [fetchEvents])
+  }
 
   async function handleDelete(id) {
     if (!confirm('Удалить событие?')) return

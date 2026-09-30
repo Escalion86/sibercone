@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 
@@ -12,7 +12,11 @@ export default function CourseCodesPage() {
   const [count, setCount] = useState(5)
   const [courseName, setCourseName] = useState('')
 
-  const fetchData = useCallback(async () => {
+  useEffect(() => {
+    fetchData()
+  }, [id])
+
+  async function fetchData() {
     try {
       const [codesRes, courseRes] = await Promise.all([
         fetch(`/api/admin/courses/${id}/codes`),
@@ -26,12 +30,7 @@ export default function CourseCodesPage() {
       setCodes([])
     }
     setLoading(false)
-  }, [id])
-
-  useEffect(() => {
-    const timeout = window.setTimeout(fetchData, 0)
-    return () => window.clearTimeout(timeout)
-  }, [fetchData])
+  }
 
   async function handleGenerate() {
     setGenerating(true)
