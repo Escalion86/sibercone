@@ -13,10 +13,14 @@ VAPID_SUBJECT=mailto:info@sibercone.ru
 TELEGRAM_BOT_TOKEN=
 TELEGRAM_BOT_USERNAME=
 TELEGRAM_WEBHOOK_SECRET=
+# Исходящий прокси для Telegram Bot API на VPS
+TELEGRAM_PROXY_URL=http://127.0.0.1:1081
 NEXTAUTH_SITE=https://sibercone.ru
 ```
 
 `TELEGRAM_CHAT_IDS` можно оставить для прежних получателей через запятую. Получатели из этой переменной объединяются с чатами, подключёнными через админку, без дублей.
+
+`TELEGRAM_PROXY_URL` применяется только к исходящим запросам на `api.telegram.org`. Если переменная не задана, запросы выполняются напрямую. На VPS прямой доступ к Telegram заблокирован, поэтому укажите локальный xray-прокси `http://127.0.0.1:1081`.
 
 Если VAPID-переменные отсутствуют, Web Push отключается, но Telegram и остальные запросы продолжают работать. Без MongoDB API настроек и подписок отвечает контролируемой ошибкой 5xx, не завершая процесс приложения.
 
@@ -32,11 +36,13 @@ npx web-push generate-vapid-keys
 
 ## Настройка Telegram webhook
 
-Создайте непредсказуемый `TELEGRAM_WEBHOOK_SECRET` и укажите публичный HTTPS-адрес в `NEXTAUTH_SITE`. Установите webhook:
+Создайте непредсказуемый `TELEGRAM_WEBHOOK_SECRET` и укажите публичный HTTPS-адрес в `NEXTAUTH_SITE`. После деплоя один раз установите webhook непосредственно на VPS:
 
 ```bash
-node --env-file=.env scripts/telegram-setup.mjs
+node scripts/telegram-setup.mjs
 ```
+
+Команда использует переменные окружения процесса, включая `TELEGRAM_PROXY_URL`. Если они хранятся только в `.env` и не экспортированы окружением, запустите `node --env-file=.env scripts/telegram-setup.mjs`.
 
 Проверить состояние или удалить webhook:
 

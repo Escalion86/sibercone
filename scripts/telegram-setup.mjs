@@ -1,3 +1,5 @@
+import { withTelegramProxy } from '../lib/telegramProxy.js'
+
 const token = process.env.TELEGRAM_BOT_TOKEN
 const secret = process.env.TELEGRAM_WEBHOOK_SECRET
 const site = process.env.NEXTAUTH_SITE
@@ -27,11 +29,14 @@ if (method === 'setWebhook') {
 }
 
 try {
-  const response = await fetch(`https://api.telegram.org/bot${token}/${method}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  })
+  const response = await fetch(
+    `https://api.telegram.org/bot${token}/${method}`,
+    withTelegramProxy({
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    }),
+  )
   const result = await response.json()
   console.log(JSON.stringify(result, null, 2))
   if (!response.ok || !result.ok) process.exitCode = 1
