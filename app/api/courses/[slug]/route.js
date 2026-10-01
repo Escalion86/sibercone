@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth } from '@/lib/nextauth'
 import dbConnect from '@/lib/mongodb'
 import { Course, AccessCode } from '@/models/Course'
+import { normalizeCourseMedia } from '@/lib/cloud'
 
 export async function GET(request, { params }) {
   try {
@@ -12,6 +13,7 @@ export async function GET(request, { params }) {
     if (!course) {
       return NextResponse.json({ error: 'Курс не найден' }, { status: 404 })
     }
+    const normalizedCourse = normalizeCourseMedia(course)
 
     // Проверяем, есть ли у пользователя доступ
     const session = await auth()
@@ -28,7 +30,7 @@ export async function GET(request, { params }) {
 
     // Возвращаем полные данные только при наличии доступа
     if (hasAccess) {
-      return NextResponse.json({ ...course, hasAccess: true })
+      return NextResponse.json({ ...normalizedCourse, hasAccess: true })
     }
 
     // Без доступа — только публичная информация (без content)
@@ -37,9 +39,9 @@ export async function GET(request, { params }) {
       title: course.title,
       slug: course.slug,
       description: course.description,
-      videoUrl: course.videoUrl,
+      videoUrl: normalizedCourse.videoUrl,
       price: course.price,
-      images: course.images,
+      images: normalizedCourse.images,
       hasAccess: false,
     })
   } catch (error) {

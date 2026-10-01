@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import Event from '@/models/Event'
 import { isAuthenticated } from '@/lib/auth'
+import { normalizeEventMedia, toCloudEscalionUrl } from '@/lib/cloud'
 
 export async function GET(request, { params }) {
   if (!(await isAuthenticated())) {
@@ -14,7 +15,7 @@ export async function GET(request, { params }) {
     if (!event) {
       return NextResponse.json({ error: 'Не найдено' }, { status: 404 })
     }
-    return NextResponse.json(event)
+    return NextResponse.json(normalizeEventMedia(event))
   } catch (error) {
     return NextResponse.json({ error: 'Ошибка' }, { status: 500 })
   }
@@ -44,8 +45,8 @@ export async function PUT(request, { params }) {
         location: String(body.location || '')
           .trim()
           .slice(0, 300),
-        image: String(body.image || '').slice(0, 500),
-        videoUrl: String(body.videoUrl || '').slice(0, 500),
+        image: toCloudEscalionUrl(String(body.image || '').slice(0, 500)),
+        videoUrl: toCloudEscalionUrl(String(body.videoUrl || '').slice(0, 500)),
         published: body.published !== false,
       },
       { new: true },
@@ -55,7 +56,7 @@ export async function PUT(request, { params }) {
       return NextResponse.json({ error: 'Не найдено' }, { status: 404 })
     }
 
-    return NextResponse.json(event)
+    return NextResponse.json(normalizeEventMedia(event.toObject()))
   } catch (error) {
     return NextResponse.json({ error: 'Ошибка обновления' }, { status: 500 })
   }

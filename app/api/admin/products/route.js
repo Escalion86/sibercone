@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import Product from '@/models/Product'
 import { isAuthenticated } from '@/lib/auth'
+import { normalizeCloudUrls, normalizeProductMedia, toCloudEscalionUrl } from '@/lib/cloud'
 
 export async function GET() {
   if (!(await isAuthenticated())) {
@@ -10,7 +11,7 @@ export async function GET() {
 
   await dbConnect()
   const products = await Product.find({}).sort({ createdAt: -1 }).lean()
-  return NextResponse.json(products)
+  return NextResponse.json(products.map(normalizeProductMedia))
 }
 
 export async function POST(request) {
@@ -45,13 +46,13 @@ export async function POST(request) {
       price: Number(body.price),
       categories: body.categories || [],
       productTypes: body.productTypes || [],
-      images: body.images || [],
-      videoUrl: body.videoUrl || '',
+      images: normalizeCloudUrls(body.images),
+      videoUrl: toCloudEscalionUrl(body.videoUrl),
       inStock: body.inStock !== false,
       isNewArrival: body.isNewArrival || false,
     })
 
-    return NextResponse.json(product, { status: 201 })
+    return NextResponse.json(normalizeProductMedia(product.toObject()), { status: 201 })
   } catch (err) {
     return NextResponse.json(
       { error: err.message || 'Ошибка создания товара' },

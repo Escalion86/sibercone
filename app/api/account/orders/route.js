@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth } from '@/lib/nextauth'
 import dbConnect from '@/lib/mongodb'
 import Order from '@/models/Order'
+import { normalizeOrderMedia } from '@/lib/cloud'
 
 export async function GET() {
   const session = await auth()
@@ -14,5 +15,5 @@ export async function GET() {
     .sort({ createdAt: -1 })
     .lean()
 
-  return NextResponse.json(orders)
+  return NextResponse.json(orders.map(normalizeOrderMedia))
 }

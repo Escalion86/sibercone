@@ -5,6 +5,7 @@ import Order from '@/models/Order'
 import User from '@/models/User'
 import { formatOrderMessage } from '@/lib/telegram'
 import { notifyAdmins } from '@/lib/notifyAdmins'
+import { toCloudEscalionUrl } from '@/lib/cloud'
 import { sendEmail, formatOrderConfirmationEmail } from '@/lib/email'
 
 export async function POST(request) {
@@ -55,7 +56,7 @@ export async function POST(request) {
       name: String(item.name).slice(0, 200),
       price: Number(item.price),
       quantity: Math.max(1, Math.floor(Number(item.quantity))),
-      image: String(item.image || '').slice(0, 500),
+      image: toCloudEscalionUrl(String(item.image || '').slice(0, 500)),
     }))
 
     await dbConnect()

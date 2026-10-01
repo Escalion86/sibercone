@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import Order from '@/models/Order'
 import { isAuthenticated } from '@/lib/auth'
+import { normalizeOrderMedia } from '@/lib/cloud'
 
 export async function GET(request, { params }) {
   if (!(await isAuthenticated())) {
@@ -16,7 +17,7 @@ export async function GET(request, { params }) {
     return NextResponse.json({ error: 'Заказ не найден' }, { status: 404 })
   }
 
-  return NextResponse.json(order)
+  return NextResponse.json(normalizeOrderMedia(order))
 }
 
 export async function PUT(request, { params }) {
@@ -39,7 +40,7 @@ export async function PUT(request, { params }) {
       return NextResponse.json({ error: 'Заказ не найден' }, { status: 404 })
     }
 
-    return NextResponse.json(order)
+    return NextResponse.json(normalizeOrderMedia(order.toObject()))
   } catch (err) {
     return NextResponse.json(
       { error: err.message || 'Ошибка обновления' },

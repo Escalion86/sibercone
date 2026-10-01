@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import Product from '@/models/Product'
 import { isAuthenticated } from '@/lib/auth'
+import { normalizeCloudUrls, normalizeProductMedia, toCloudEscalionUrl } from '@/lib/cloud'
 
 export async function GET(request, { params }) {
   if (!(await isAuthenticated())) {
@@ -16,7 +17,7 @@ export async function GET(request, { params }) {
     return NextResponse.json({ error: 'Товар не найден' }, { status: 404 })
   }
 
-  return NextResponse.json(product)
+  return NextResponse.json(normalizeProductMedia(product))
 }
 
 export async function PUT(request, { params }) {
@@ -39,8 +40,8 @@ export async function PUT(request, { params }) {
         price: Number(body.price),
         categories: body.categories || [],
         productTypes: body.productTypes || [],
-        images: body.images || [],
-        videoUrl: body.videoUrl || '',
+        images: normalizeCloudUrls(body.images),
+        videoUrl: toCloudEscalionUrl(body.videoUrl),
         inStock: body.inStock !== false,
         isNewArrival: body.isNewArrival || false,
       },
@@ -51,7 +52,7 @@ export async function PUT(request, { params }) {
       return NextResponse.json({ error: 'Товар не найден' }, { status: 404 })
     }
 
-    return NextResponse.json(product)
+    return NextResponse.json(normalizeProductMedia(product.toObject()))
   } catch (err) {
     return NextResponse.json(
       { error: err.message || 'Ошибка обновления' },

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { toCloudEscalionUrl } from '@/lib/cloud'
 
 const OrderItemSchema = new mongoose.Schema(
   {
@@ -10,7 +11,7 @@ const OrderItemSchema = new mongoose.Schema(
     name: { type: String, required: true },
     price: { type: Number, required: true },
     quantity: { type: Number, required: true, min: 1 },
-    image: { type: String, default: '' },
+    image: { type: String, default: '', set: toCloudEscalionUrl },
   },
   { _id: false },
 )

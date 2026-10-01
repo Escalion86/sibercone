@@ -2,6 +2,7 @@ import dbConnect from '@/lib/mongodb'
 import Product from '@/models/Product'
 import { notFound } from 'next/navigation'
 import ProductDetail from './ProductDetail'
+import { normalizeProductMedia } from '@/lib/cloud'
 
 function getSlugCandidates(slugValue) {
   const raw = typeof slugValue === 'string' ? slugValue.trim() : ''
@@ -46,11 +47,11 @@ export default async function ProductPage({ params }) {
     notFound()
   }
 
-  const serialized = {
+  const serialized = normalizeProductMedia({
     ...product,
     _id: product._id.toString(),
     createdAt: product.createdAt?.toISOString() || null,
-  }
+  })
 
   return <ProductDetail product={serialized} />
 }

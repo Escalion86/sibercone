@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import Event from '@/models/Event'
+import { normalizeEventMedia } from '@/lib/cloud'
 
 export async function GET() {
   try {
@@ -8,7 +9,7 @@ export async function GET() {
     const events = await Event.find({ published: true })
       .sort({ date: -1 })
       .lean()
-    return NextResponse.json(events)
+    return NextResponse.json(events.map(normalizeEventMedia))
   } catch (error) {
     return NextResponse.json(
       { error: 'Ошибка загрузки событий' },

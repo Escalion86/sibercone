@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import { Course } from '@/models/Course'
 import { isAuthenticated } from '@/lib/auth'
+import { normalizeCloudUrls, normalizeCourseMedia, toCloudEscalionUrl } from '@/lib/cloud'
 
 export async function GET(request, { params }) {
   if (!(await isAuthenticated())) {
@@ -14,7 +15,7 @@ export async function GET(request, { params }) {
     if (!course) {
       return NextResponse.json({ error: 'Не найдено' }, { status: 404 })
     }
-    return NextResponse.json(course)
+    return NextResponse.json(normalizeCourseMedia(course))
   } catch (error) {
     return NextResponse.json({ error: 'Ошибка' }, { status: 500 })
   }
@@ -41,8 +42,8 @@ export async function PUT(request, { params }) {
           .slice(0, 200),
         description: String(body.description || '').slice(0, 5000),
         content: String(body.content || '').slice(0, 50000),
-        videoUrl: String(body.videoUrl || '').slice(0, 500),
-        images: Array.isArray(body.images) ? body.images.slice(0, 20) : [],
+        videoUrl: toCloudEscalionUrl(String(body.videoUrl || '').slice(0, 500)),
+        images: normalizeCloudUrls(Array.isArray(body.images) ? body.images.slice(0, 20) : []),
         price: Number(body.price) || 0,
       },
       { new: true },
@@ -52,7 +53,7 @@ export async function PUT(request, { params }) {
       return NextResponse.json({ error: 'Не найдено' }, { status: 404 })
     }
 
-    return NextResponse.json(course)
+    return NextResponse.json(normalizeCourseMedia(course.toObject()))
   } catch (error) {
     return NextResponse.json({ error: 'Ошибка обновления' }, { status: 500 })
   }
