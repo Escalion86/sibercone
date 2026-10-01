@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import { Course } from '@/models/Course'
+import { normalizeCourseMedia } from '@/lib/cloud'
 
 export async function GET() {
   try {
@@ -9,7 +10,7 @@ export async function GET() {
       .select('title slug description price images createdAt')
       .sort({ createdAt: -1 })
       .lean()
-    return NextResponse.json(courses)
+    return NextResponse.json(courses.map(normalizeCourseMedia))
   } catch (error) {
     return NextResponse.json(
       { error: 'Ошибка загрузки курсов' },

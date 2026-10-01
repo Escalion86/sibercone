@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import Event from '@/models/Event'
+import { normalizeEventMedia } from '@/lib/cloud'
 
 export async function GET(request, { params }) {
   try {
@@ -10,7 +11,7 @@ export async function GET(request, { params }) {
     if (!event) {
       return NextResponse.json({ error: 'Событие не найдено' }, { status: 404 })
     }
-    return NextResponse.json(event)
+    return NextResponse.json(normalizeEventMedia(event))
   } catch (error) {
     return NextResponse.json(
       { error: 'Ошибка загрузки события' },

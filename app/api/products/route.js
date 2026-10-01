@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import Product from '@/models/Product'
+import { normalizeProductMedia } from '@/lib/cloud'
 
 export async function GET(request) {
   try {
@@ -38,7 +39,7 @@ export async function GET(request) {
 
     const products = await Product.find(filter).sort(sortOption).lean()
 
-    return NextResponse.json(products)
+    return NextResponse.json(products.map(normalizeProductMedia))
   } catch (error) {
     return NextResponse.json(
       { error: 'Ошибка загрузки товаров' },

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { toCloudEscalionUrl } from '@/lib/cloud'
 
 const EventSchema = new mongoose.Schema({
   title: {
@@ -27,10 +28,12 @@ const EventSchema = new mongoose.Schema({
   image: {
     type: String,
     default: '',
+    set: toCloudEscalionUrl,
   },
   videoUrl: {
     type: String,
     default: '',
+    set: toCloudEscalionUrl,
   },
   published: {
     type: Boolean,

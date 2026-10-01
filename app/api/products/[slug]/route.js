@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import Product from '@/models/Product'
+import { normalizeProductMedia } from '@/lib/cloud'
 
 function getSlugCandidates(slugValue) {
   const raw = typeof slugValue === 'string' ? slugValue.trim() : ''
@@ -31,7 +32,7 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: 'Товар не найден' }, { status: 404 })
     }
 
-    return NextResponse.json(product)
+    return NextResponse.json(normalizeProductMedia(product))
   } catch (error) {
     return NextResponse.json(
       { error: 'Ошибка загрузки товара' },

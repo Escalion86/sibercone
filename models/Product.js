@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { normalizeCloudUrls, toCloudEscalionUrl } from '@/lib/cloud'
 
 const ProductSchema = new mongoose.Schema({
   name: {
@@ -47,10 +48,12 @@ const ProductSchema = new mongoose.Schema({
   images: {
     type: [String],
     default: [],
+    set: normalizeCloudUrls,
   },
   videoUrl: {
     type: String,
     default: '',
+    set: toCloudEscalionUrl,
   },
   inStock: {
     type: Boolean,

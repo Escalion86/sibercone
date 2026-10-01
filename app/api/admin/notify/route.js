@@ -4,6 +4,7 @@ import User from '@/models/User'
 import Product from '@/models/Product'
 import { isAuthenticated } from '@/lib/auth'
 import { sendEmail, formatNewProductEmail } from '@/lib/email'
+import { normalizeProductMedia } from '@/lib/cloud'
 
 export async function POST(request) {
   if (!(await isAuthenticated())) {
@@ -35,7 +36,7 @@ export async function POST(request) {
       return NextResponse.json({ sent: 0, message: 'Нет подписчиков' })
     }
 
-    const html = formatNewProductEmail(product)
+    const html = formatNewProductEmail(normalizeProductMedia(product))
     let sent = 0
     let failed = 0
 

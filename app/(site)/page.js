@@ -2,6 +2,7 @@ import Link from 'next/link'
 import dbConnect from '@/lib/mongodb'
 import Product from '@/models/Product'
 import HomeProducts from './HomeProducts'
+import { normalizeProductMedia } from '@/lib/cloud'
 
 export default async function HomePage() {
   let products = []
@@ -11,7 +12,9 @@ export default async function HomePage() {
       .sort({ createdAt: -1 })
       .limit(4)
       .lean()
-    products = docs.map((p) => ({ ...p, _id: p._id.toString() }))
+    products = docs.map((p) =>
+      normalizeProductMedia({ ...p, _id: p._id.toString() }),
+    )
   } catch {}
 
   return (

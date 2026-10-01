@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import Event from '@/models/Event'
 import { isAuthenticated } from '@/lib/auth'
+import { normalizeEventMedia, toCloudEscalionUrl } from '@/lib/cloud'
 
 export async function GET(request) {
   if (!(await isAuthenticated())) {
@@ -10,7 +11,7 @@ export async function GET(request) {
   try {
     await dbConnect()
     const events = await Event.find().sort({ date: -1 }).lean()
-    return NextResponse.json(events)
+    return NextResponse.json(events.map(normalizeEventMedia))
   } catch (error) {
     return NextResponse.json({ error: 'Ошибка' }, { status: 500 })
   }
@@ -41,12 +42,12 @@ export async function POST(request) {
       location: String(location || '')
         .trim()
         .slice(0, 300),
-      image: String(image || '').slice(0, 500),
-      videoUrl: String(videoUrl || '').slice(0, 500),
+      image: toCloudEscalionUrl(String(image || '').slice(0, 500)),
+      videoUrl: toCloudEscalionUrl(String(videoUrl || '').slice(0, 500)),
       published: published !== false,
     })
 
-    return NextResponse.json(event, { status: 201 })
+    return NextResponse.json(normalizeEventMedia(event.toObject()), { status: 201 })
   } catch (error) {
     if (error.code === 11000) {
       return NextResponse.json(

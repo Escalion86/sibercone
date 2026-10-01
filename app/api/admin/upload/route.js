@@ -1,10 +1,17 @@
 import { NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/auth'
-import { uploadFile } from '@/lib/cloud'
+import { EscalionCloudError, uploadFilesToEscalionCloud } from '@/lib/cloud'
 
 export async function POST(request) {
   if (!(await isAuthenticated())) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  if (!process.env.ESCALIONCLOUD_PASSWORD) {
+    return NextResponse.json(
+      { error: 'Файловое хранилище не настроено' },
+      { status: 503 },
+    )
   }
 
   try {
@@ -16,23 +23,12 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Файл не выбран' }, { status: 400 })
     }
 
-    // Если uploadFile поддерживает массив файлов, можно передать files
-    // const urls = await uploadFile(files, directory)
-    // Если нет — отправляем по одному
-    let urls = []
-    for (const file of files) {
-      const result = await uploadFile(file, directory)
-      if (Array.isArray(result)) {
-        urls = urls.concat(result)
-      } else if (result) {
-        urls.push(result)
-      }
-    }
+    const urls = await uploadFilesToEscalionCloud({ files, directory })
     return NextResponse.json({ urls })
   } catch (err) {
     return NextResponse.json(
       { error: err.message || 'Ошибка загрузки' },
-      { status: 500 },
+      { status: err instanceof EscalionCloudError ? err.status : 502 },
     )
   }
 }

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import dbConnect from '@/lib/mongodb'
 import { Course } from '@/models/Course'
 import { isAuthenticated } from '@/lib/auth'
+import { normalizeCloudUrls, normalizeCourseMedia, toCloudEscalionUrl } from '@/lib/cloud'
 
 export async function GET(request) {
   if (!(await isAuthenticated())) {
@@ -10,7 +11,7 @@ export async function GET(request) {
   try {
     await dbConnect()
     const courses = await Course.find().sort({ createdAt: -1 }).lean()
-    return NextResponse.json(courses)
+    return NextResponse.json(courses.map(normalizeCourseMedia))
   } catch (error) {
     return NextResponse.json({ error: 'Ошибка' }, { status: 500 })
   }
@@ -38,12 +39,12 @@ export async function POST(request) {
       slug: String(slug).trim().slice(0, 200),
       description: String(description || '').slice(0, 5000),
       content: String(content || '').slice(0, 50000),
-      videoUrl: String(videoUrl || '').slice(0, 500),
-      images: Array.isArray(images) ? images.slice(0, 20) : [],
+      videoUrl: toCloudEscalionUrl(String(videoUrl || '').slice(0, 500)),
+      images: normalizeCloudUrls(Array.isArray(images) ? images.slice(0, 20) : []),
       price: Number(price) || 0,
     })
 
-    return NextResponse.json(course, { status: 201 })
+    return NextResponse.json(normalizeCourseMedia(course.toObject()), { status: 201 })
   } catch (error) {
     if (error.code === 11000) {
       return NextResponse.json(
